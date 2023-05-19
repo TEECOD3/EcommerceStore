@@ -6,13 +6,15 @@ import {
   MenuOutlined,
   SearchOutlined,
 } from "@mui/icons-material";
-
 import { useNavigate } from "react-router-dom";
 import { shades } from "../../Theme";
+import { setIsOCartOpen } from "../../state";
 
 const Navbar = () => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const cart = useSelector((state) => state.cart.cart);
+
   return (
     <>
       <Box
@@ -36,7 +38,6 @@ const Navbar = () => {
         >
           <Box
             onClick={() => {
-              a;
               navigate("/");
             }}
             sx={{ "&:hover": { cursor: "pointer" } }}
@@ -50,7 +51,7 @@ const Navbar = () => {
             justifyContent="space-between"
             alignItems="center"
             columnGap="20px"
-            zIndex="2 "
+            zIndex="2"
           >
             <IconButton sx={{ color: "black" }}>
               <SearchOutlined />
@@ -58,9 +59,28 @@ const Navbar = () => {
             <IconButton sx={{ color: "black" }}>
               <PersonOutline />
             </IconButton>
-            <IconButton sx={{ color: "black" }}>
-              <ShoppingBagOutlined />
-            </IconButton>
+
+            <Badge
+              badgeContent={cart.length}
+              color="secondary"
+              invisible={cart.length === 0}
+              sx={{
+                "& .MuiBadge-badge": {
+                  right: 5,
+                  top: 5,
+                  padding: "0 4px",
+                  height: "14px",
+                  minWidth: "13px",
+                },
+              }}
+            >
+              <IconButton
+                onClick={() => dispatch(setIsOCartOpen({}))}
+                sx={{ color: "black" }}
+              >
+                <ShoppingBagOutlined />
+              </IconButton>
+            </Badge>
             <IconButton sx={{ color: "black" }}>
               <MenuOutlined />
             </IconButton>
